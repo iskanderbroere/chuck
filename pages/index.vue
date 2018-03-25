@@ -1,64 +1,63 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        cn
-      </h1>
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-    </div>
-  </section>
+  <div class="container container-grid mx-auto">
+    <ul class="list-reset font-mono mt-4 posts">
+      <li
+        v-for="post in posts"
+        :key="post.id"
+        class="rounded overflow-hidden shadow-md flex flex-col justify-between">
+        <p class="px-6 py-6">
+          {{ post.joke }}
+        </p>
+        <footer class="px-6 pb-6">
+          <button class="flex text-lg justify-center bg-pink-light hover:bg-pink text-white font-bold py-2 px-4 rounded mr-2">Add favorite
+          </button>
+        </footer>
+      </li>
+    </ul>
+    <ul class="list-reset font-mono mt-4 favorites">
+      <li
+        v-for="post in posts"
+        :key="post.id"
+        class="rounded overflow-hidden shadow-md flex flex-col justify-between">
+        <p class="px-6 py-6">
+          {{ post.joke }}
+        </p>
+        <footer class="px-6 pb-6">
+          <button class="flex text-lg justify-center bg-red-light hover:bg-red text-white font-bold py-2 px-4 rounded mr-2">Remove favorite</button>
+        </footer>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
-
 export default {
-  components: {
-    AppLogo
+  async asyncData() {
+    let data = await fetch("http://api.icndb.com/jokes/random/10")
+    let jsonData = await data.json()
+    console.log(jsonData)
+    return { posts: jsonData.value }
   }
 }
 </script>
 
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+<style lang="postcss">
+.container-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  grid-template-areas: "posts posts favorites";
 }
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+ul.posts {
+  grid-area: posts;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+ul.favorites {
+  grid-area: favorites;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
 }
 </style>
