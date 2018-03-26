@@ -1,16 +1,22 @@
 import { setLocalStorage, getLocalStorage } from "../utils/localstorage"
+import { fetchOne } from "../utils/api"
 
 export const state = () => ({
   quotes: [],
-  favorites: []
+  favorites: [],
+  fetchAtInterval: false
 })
 
 export const mutations = {
   setFavoriteQuotes(state, favoriteQuotes) {
     state.favorites = favoriteQuotes
   },
+  // maybe destructure
   setRandomQuotes(state, randomQuotes) {
     state.quotes = randomQuotes
+  },
+  addRandomQuote(state, randomQuote) {
+    state.quotes.unshift(randomQuote)
   },
   addFavoriteQuote(state, quote) {
     if (state.favorites.length > 9) {
@@ -22,8 +28,8 @@ export const mutations = {
     state.favorites.splice(quoteindex, 1)
     setLocalStorage(state.favorites)
   },
-  toggle(state, todo) {
-    todo.done = !todo.done
+  toggleFetchAtInterval(state) {
+    state.fetchAtInterval = !state.fetchAtInterval
   }
 }
 
@@ -32,6 +38,20 @@ export const actions = {
     const data = await fetch("http://api.icndb.com/jokes/random/10")
     const { value } = await data.json()
     commit("setRandomQuotes", value)
+  },
+  fetchAtInterval({ commit, state }) {
+    commit("toggleFetchAtInterval")
+    const timer = setInterval(async () => {
+      if (state.quotes.length > 9 || !state.fetchAtInterval) {
+        clearInterval(timer)
+        return
+      }
+      const startTime = Date.now()
+      const quote = await fetchOne()
+      const endTime = Date.now()
+      console.log(endTime - startTime)
+      commit("addRandomQuote", await quote)
+    }, 1000)
   },
   async getLocalQuotes({ commit }) {
     commit("setFavoriteQuotes", await getLocalStorage("favorites"))

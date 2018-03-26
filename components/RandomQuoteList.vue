@@ -1,6 +1,9 @@
 <template>
   <section>
     <h1 class="py-4 font-sans">Random quotes</h1>
+    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchRandomQuotes()">Get quotes</button>
+    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchAtInterval()">fetchAtInterval</button>
+    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="toggleFetchAtInterval()">toggleFetchAtInterval</button>
     <transition-group tag="ul" name="fade" class="list-reset font-sans mb-4 quotes">
       <li
         v-for="quote in randomQuotes"
@@ -18,7 +21,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapState, mapActions, mapMutations } from "vuex"
 import AddFavoriteButton from "~/components/AddFavoriteButton"
 
 export default {
@@ -26,10 +29,13 @@ export default {
     AddFavoriteButton
   },
   computed: { ...mapState({ randomQuotes: "quotes" }) },
-  mounted() {
-    this.fetchRandomQuotes()
-  },
-  methods: { ...mapActions(["fetchRandomQuotes"]) }
+  // mounted() {
+  //   this.fetchRandomQuotes()
+  // },
+  methods: {
+    ...mapActions(["fetchRandomQuotes", "fetchAtInterval"]),
+    ...mapMutations(["toggleFetchAtInterval"])
+  }
 }
 </script>
 
@@ -41,5 +47,7 @@ ul.quotes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 1rem;
+}
+button {
 }
 </style>
