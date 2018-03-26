@@ -5,9 +5,9 @@
       <li v-for="(quote, index) in favoriteQuotes"
           :key="quote.id"
           class="rounded overflow-hidden shadow-md flex flex-col bg-pink-lightest justify-between border-grey-darker border border-2">
-        <h2 class="px-6 pt-6 pb-2">{{ index + 1 }}</h2>
-        <p class="px-6 pb-6">
+        <p class="p-6">
           {{ quote.joke }}
+          <remove-favorite-button :quoteindex="index" />
         </p>
       </li>
     </transition-group>
@@ -16,8 +16,12 @@
 
 <script>
 import { mapState, mapActions } from "vuex"
+import RemoveFavoriteButton from "~/components/RemoveFavoriteButton"
 
 export default {
+  components: {
+    RemoveFavoriteButton
+  },
   computed: { ...mapState({ favoriteQuotes: "favorites" }) },
   mounted() {
     this.getLocalQuotes()

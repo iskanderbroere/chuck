@@ -10,7 +10,7 @@
           {{ quote.joke }}
         </p>
         <footer class="px-6 pb-6">
-          <favorite-button :quote="quote" />
+          <add-favorite-button :quote="quote" />
         </footer>
       </li>
     </transition-group>
@@ -19,11 +19,11 @@
 
 <script>
 import { mapState, mapActions } from "vuex"
-import FavoriteButton from "~/components/FavoriteButton"
+import AddFavoriteButton from "~/components/AddFavoriteButton"
 
 export default {
   components: {
-    FavoriteButton
+    AddFavoriteButton
   },
   computed: { ...mapState({ randomQuotes: "quotes" }) },
   mounted() {

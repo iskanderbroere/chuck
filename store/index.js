@@ -6,20 +6,21 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setFavorites(state, favoriteQuotes) {
+  setFavoriteQuotes(state, favoriteQuotes) {
     state.favorites = favoriteQuotes
   },
   setRandomQuotes(state, randomQuotes) {
     state.quotes = randomQuotes
   },
-  add(state, quote) {
+  addFavoriteQuote(state, quote) {
     if (state.favorites.length > 9) {
       state.favorites = state.favorites.slice(0, 9)
     }
     state.favorites.unshift(quote)
   },
-  remove(state, { todo }) {
-    state.list.splice(state.list.indexOf(todo), 1)
+  removeFavoriteQuote(state, quoteindex) {
+    state.favorites.splice(quoteindex, 1)
+    setLocalStorage(state.favorites)
   },
   toggle(state, todo) {
     todo.done = !todo.done
@@ -33,24 +34,15 @@ export const actions = {
     commit("setRandomQuotes", value)
   },
   async getLocalQuotes({ commit }) {
-    const existingQuotes = await getLocalStorage("favorites")
-    if (existingQuotes) {
-      commit("setFavorites", existingQuotes)
-    }
+    commit("setFavoriteQuotes", await getLocalStorage("favorites"))
   },
-  addUniqueFavorite({ dispatch, state }, quote) {
+  addFavoriteQuote({ commit, state }, quote) {
     const existingQuotes = state.favorites
     // check if already favorite
     if (!existingQuotes.some(existingQuote => existingQuote.id === quote.id)) {
-      dispatch("addFavorite", {
-        quote: quote,
-        existingQuotes: existingQuotes
-      })
+      const newQuotes = [quote].concat(existingQuotes)
+      setLocalStorage(newQuotes)
+      commit("addFavoriteQuote", quote)
     }
-  },
-  async addFavorite({ commit }, { quote, existingQuotes }) {
-    const newQuotes = [quote].concat(existingQuotes)
-    setLocalStorage(newQuotes)
-    await commit("add", quote)
   }
 }
