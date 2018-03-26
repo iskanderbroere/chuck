@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 class="py-4 font-sans">Favorite quotes</h1>
+    <h1 class="py-4 font-sans">Favorite quotes ({{ favoriteQuotes.length }})</h1>
     <transition-group name="fade" tag="ul" class="list-reset font-sans mb-4 favorites">
       <li v-for="(quote, index) in favoriteQuotes"
           :key="quote.id"

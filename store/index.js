@@ -14,12 +14,7 @@ export const mutations = {
   },
   add(state, quote) {
     if (state.favorites.length > 9) {
-      // oddities here
-      console.log(state.favorites.length)
       state.favorites = state.favorites.slice(0, 9)
-      const slicedState = state.favorites.unshift(quote)
-      setLocalStorage(slicedState)
-      return slicedState
     }
     state.favorites.unshift(quote)
   },
@@ -54,8 +49,8 @@ export const actions = {
     }
   },
   async addFavorite({ commit }, { quote, existingQuotes }) {
-    const newQuotes = existingQuotes.concat([quote])
+    const newQuotes = [quote].concat(existingQuotes)
+    setLocalStorage(newQuotes)
     await commit("add", quote)
-    await setLocalStorage(newQuotes)
   }
 }
