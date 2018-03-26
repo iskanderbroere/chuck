@@ -18,12 +18,6 @@
 import { mapState, mapActions } from "vuex"
 
 export default {
-  props: {
-    quotes: {
-      type: Array,
-      default: () => []
-    }
-  },
   computed: { ...mapState({ favoriteQuotes: "favorites" }) },
   mounted() {
     this.getLocalQuotes()

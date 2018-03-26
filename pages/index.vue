@@ -2,7 +2,7 @@
   <div class="container container-grid mx-auto">
     <ul class="list-reset font-mono mt-4 quotes">
       <li
-        v-for="quote in quotes"
+        v-for="quote in randomQuotes"
         :key="quote.id"
         class="rounded overflow-hidden shadow-md flex flex-col justify-between">
         <p class="px-6 py-6">
@@ -18,19 +18,20 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex"
 import FavoriteButton from "~/components/FavoriteButton"
 import FavoriteList from "~/components/FavoriteList"
 
 export default {
-  async asyncData() {
-    const data = await fetch("http://api.icndb.com/jokes/random/10")
-    const jsonData = await data.json()
-    return { quotes: jsonData.value }
-  },
   components: {
     FavoriteButton,
     FavoriteList
-  }
+  },
+  computed: { ...mapState({ randomQuotes: "quotes" }) },
+  mounted() {
+    this.fetchRandomQuotes()
+  },
+  methods: { ...mapActions(["fetchRandomQuotes"]) }
 }
 </script>
 
