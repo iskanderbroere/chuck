@@ -13,7 +13,10 @@ export const mutations = {
     state.quotes = randomQuotes
   },
   add(state, quote) {
-    state.favorites.push(quote)
+    if (state.favorites.length > 9) {
+      state.favorites = state.favorites.slice(1)
+    }
+    state.favorites.unshift(quote)
   },
   remove(state, { todo }) {
     state.list.splice(state.list.indexOf(todo), 1)

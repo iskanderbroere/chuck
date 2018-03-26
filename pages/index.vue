@@ -1,10 +1,10 @@
 <template>
   <div class="container container-grid mx-auto">
-    <ul class="list-reset font-mono mt-4 quotes">
+    <ul class="list-reset font-mono my-4 quotes">
       <li
         v-for="quote in randomQuotes"
         :key="quote.id"
-        class="rounded overflow-hidden shadow-md flex flex-col justify-between">
+        class="rounded overflow-hidden shadow-md flex flex-col justify-between border-grey-darker border border-2">
         <p class="px-6 py-6">
           {{ quote.joke }}
         </p>
@@ -40,18 +40,11 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
-  grid-template-areas: "quotes quotes favorites";
 }
 ul.quotes {
-  grid-area: quotes;
+  grid-column: span 2;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1rem;
-}
-ul.favorites {
-  grid-area: favorites;
-  display: grid;
-  grid-template-columns: 1fr;
   grid-gap: 1rem;
 }
 </style>

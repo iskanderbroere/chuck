@@ -1,6 +1,6 @@
 <template>
   <button class="flex text-lg justify-center bg-pink-light hover:bg-pink text-white font-bold py-2 px-4 rounded mr-2" @click="addUniqueFavorite(quote)">
-    Add favorite {{ quote.id }}
+    Add to favorites
   </button>
 </template>
 
