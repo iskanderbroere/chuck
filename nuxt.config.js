@@ -19,7 +19,7 @@ module.exports = {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
-  css: ["~/assets/css/tailwind.css"],
+  css: ["~/assets/css/tailwind.css", "~/assets/css/main.css"],
   build: {
     extractCSS: true,
     postcss: require("tailwindcss")("./tailwind.js"),
