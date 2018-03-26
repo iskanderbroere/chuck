@@ -1,4 +1,4 @@
-import localforage from "localforage"
+import { setLocalStorage, getLocalStorage } from "../utils/localstorage"
 
 export const state = () => ({
   quotes: [],
@@ -14,7 +14,10 @@ export const mutations = {
   },
   add(state, quote) {
     if (state.favorites.length > 9) {
-      state.favorites = state.favorites.slice(1)
+      state.favorites = state.favorites.slice(0, 9)
+      const slicedState = state.favorites.unshift(quote)
+      setLocalStorage(slicedState)
+      return slicedState
     }
     state.favorites.unshift(quote)
   },
@@ -33,7 +36,7 @@ export const actions = {
     commit("setRandomQuotes", value)
   },
   async getLocalQuotes({ commit }) {
-    const existingQuotes = await localforage.getItem("favorites")
+    const existingQuotes = await getLocalStorage("favorites")
     if (existingQuotes) {
       commit("setFavorites", existingQuotes)
     }
@@ -51,6 +54,6 @@ export const actions = {
   async addFavorite({ commit }, { quote, existingQuotes }) {
     const newQuotes = existingQuotes.concat([quote])
     await commit("add", quote)
-    await localforage.setItem("favorites", newQuotes)
+    await setLocalStorage(newQuotes)
   }
 }
