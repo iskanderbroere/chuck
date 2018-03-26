@@ -9,8 +9,8 @@ export const mutations = {
   setQuotes(state, existingQuotes) {
     state.favorites = existingQuotes
   },
-  add(state, newQuotes) {
-    state.favorites = newQuotes
+  add(state, quote) {
+    state.favorites.push(quote)
   },
   remove(state, { todo }) {
     state.list.splice(state.list.indexOf(todo), 1)
@@ -31,12 +31,15 @@ export const actions = {
     const existingQuotes = state.favorites
     // check if already favorite
     if (!existingQuotes.some(existingQuote => existingQuote.id === quote.id)) {
-      const newQuotes = existingQuotes.concat([quote])
-      dispatch("addUniqueFavorite", newQuotes)
+      dispatch("addUniqueFavorite", {
+        quote: quote,
+        existingQuotes: existingQuotes
+      })
     }
   },
-  async addUniqueFavorite({ commit }, newQuotes) {
-    await commit("add", newQuotes)
+  async addUniqueFavorite({ commit }, { quote, existingQuotes }) {
+    const newQuotes = existingQuotes.concat([quote])
+    await commit("add", quote)
     await localforage.setItem("favorites", newQuotes)
   }
 }
