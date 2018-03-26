@@ -11,13 +11,13 @@ export const mutations = {
   setFavoriteQuotes(state, favoriteQuotes) {
     state.favorites = favoriteQuotes
   },
-  // maybe destructure
   setRandomQuotes(state, randomQuotes) {
     state.quotes = randomQuotes
   },
   addRandomQuote(state, randomQuote) {
     state.quotes.unshift(randomQuote)
   },
+  // refactor to action maybe
   addFavoriteQuote(state, quote) {
     state.quotes = state.quotes.map(q => {
       if (q.id === quote.id) {
@@ -30,6 +30,7 @@ export const mutations = {
     }
     state.favorites.unshift(quote)
   },
+  // refactor to action maybe
   removeFavoriteQuote(state, { quoteindex, quote }) {
     state.quotes = state.quotes.map(q => {
       if (q.id === quote.id) {
@@ -57,6 +58,7 @@ export const actions = {
   fetchAtInterval({ commit, state }) {
     commit("toggleFetchAtInterval")
     const timer = setInterval(async () => {
+      // hmm
       if (state.quotes.length > 9) {
         commit("toggleFetchAtInterval")
         clearInterval(timer)
