@@ -12,8 +12,10 @@
           {{ quote.joke }}
         </p>
         <footer class="px-6 pb-6">
-          <add-favorite-button v-if="!quote.favorite" :quote="quote" />
-          <p v-else>LOVE IT</p>
+          <transition name="fade" mode="out-in">
+            <add-favorite-button v-if="!quote.favorite" :quote="quote" />
+            <span v-else class="text-5xl text-pink-light">&#10084;</span>
+          </transition>
         </footer>
       </li>
     </transition-group>
