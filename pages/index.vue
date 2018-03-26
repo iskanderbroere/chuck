@@ -1,42 +1,35 @@
 <template>
   <div class="container container-grid mx-auto">
-    <ul class="list-reset font-mono mt-4 posts">
+    <ul class="list-reset font-mono mt-4 quotes">
       <li
-        v-for="post in posts"
-        :key="post.id"
+        v-for="quote in quotes"
+        :key="quote.id"
         class="rounded overflow-hidden shadow-md flex flex-col justify-between">
         <p class="px-6 py-6">
-          {{ post.joke }}
+          {{ quote.joke }}
         </p>
         <footer class="px-6 pb-6">
-          <button class="flex text-lg justify-center bg-pink-light hover:bg-pink text-white font-bold py-2 px-4 rounded mr-2">Add favorite
-          </button>
+          <favorite-button :quote="quote" />
         </footer>
       </li>
     </ul>
-    <ul class="list-reset font-mono mt-4 favorites">
-      <li
-        v-for="post in posts"
-        :key="post.id"
-        class="rounded overflow-hidden shadow-md flex flex-col justify-between">
-        <p class="px-6 py-6">
-          {{ post.joke }}
-        </p>
-        <footer class="px-6 pb-6">
-          <button class="flex text-lg justify-center bg-red-light hover:bg-red text-white font-bold py-2 px-4 rounded mr-2">Remove favorite</button>
-        </footer>
-      </li>
-    </ul>
+    <favorite-list />
   </div>
 </template>
 
 <script>
+import FavoriteButton from "~/components/FavoriteButton"
+import FavoriteList from "~/components/FavoriteList"
+
 export default {
   async asyncData() {
-    let data = await fetch("http://api.icndb.com/jokes/random/10")
-    let jsonData = await data.json()
-    console.log(jsonData)
-    return { posts: jsonData.value }
+    const data = await fetch("http://api.icndb.com/jokes/random/10")
+    const jsonData = await data.json()
+    return { quotes: jsonData.value }
+  },
+  components: {
+    FavoriteButton,
+    FavoriteList
   }
 }
 </script>
@@ -46,10 +39,10 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
-  grid-template-areas: "posts posts favorites";
+  grid-template-areas: "quotes quotes favorites";
 }
-ul.posts {
-  grid-area: posts;
+ul.quotes {
+  grid-area: quotes;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 1rem;
