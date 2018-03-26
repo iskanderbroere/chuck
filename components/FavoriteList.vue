@@ -7,7 +7,7 @@
           class="rounded overflow-hidden shadow-md flex flex-col bg-pink-lightest justify-between border-grey-darker border border-2">
         <p class="p-6">
           {{ quote.joke }}
-          <remove-favorite-button :quoteindex="index" />
+          <remove-favorite-button :quoteindex="index" :quote="quote" />
         </p>
       </li>
     </transition-group>

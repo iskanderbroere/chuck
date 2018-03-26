@@ -4,7 +4,7 @@ import { fetchOne } from "../utils/api"
 export const state = () => ({
   quotes: [],
   favorites: [],
-  fetchAtInterval: false
+  fetching: false
 })
 
 export const mutations = {
@@ -19,17 +19,29 @@ export const mutations = {
     state.quotes.unshift(randomQuote)
   },
   addFavoriteQuote(state, quote) {
+    state.quotes = state.quotes.map(q => {
+      if (q.id === quote.id) {
+        return { ...q, favorite: true }
+      }
+      return q
+    })
     if (state.favorites.length > 9) {
       state.favorites = state.favorites.slice(0, 9)
     }
     state.favorites.unshift(quote)
   },
-  removeFavoriteQuote(state, quoteindex) {
+  removeFavoriteQuote(state, { quoteindex, quote }) {
+    state.quotes = state.quotes.map(q => {
+      if (q.id === quote.id) {
+        return { ...q, favorite: false }
+      }
+      return q
+    })
     state.favorites.splice(quoteindex, 1)
     setLocalStorage(state.favorites)
   },
   toggleFetchAtInterval(state) {
-    state.fetchAtInterval = !state.fetchAtInterval
+    state.fetching = !state.fetching
   }
 }
 
@@ -37,12 +49,20 @@ export const actions = {
   async fetchRandomQuotes({ commit }) {
     const data = await fetch("http://api.icndb.com/jokes/random/10")
     const { value } = await data.json()
-    commit("setRandomQuotes", value)
+    const quotes = value.map(quote => {
+      return { ...quote, favorite: false }
+    })
+    commit("setRandomQuotes", quotes)
   },
   fetchAtInterval({ commit, state }) {
     commit("toggleFetchAtInterval")
     const timer = setInterval(async () => {
-      if (state.quotes.length > 9 || !state.fetchAtInterval) {
+      if (state.quotes.length > 9) {
+        commit("toggleFetchAtInterval")
+        clearInterval(timer)
+        return
+      }
+      if (!state.fetching) {
         clearInterval(timer)
         return
       }

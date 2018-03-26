@@ -2,8 +2,7 @@
   <section>
     <h1 class="py-4 font-sans">Random quotes</h1>
     <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchRandomQuotes()">Get quotes</button>
-    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchAtInterval()">fetchAtInterval</button>
-    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="toggleFetchAtInterval()">toggleFetchAtInterval</button>
+    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchAtInterval()">{{ fetching ? "Pause" : "Start" }}</button>
     <transition-group tag="ul" name="fade" class="list-reset font-sans mb-4 quotes">
       <li
         v-for="quote in randomQuotes"
@@ -13,7 +12,8 @@
           {{ quote.joke }}
         </p>
         <footer class="px-6 pb-6">
-          <add-favorite-button :quote="quote" />
+          <add-favorite-button v-if="!quote.favorite" :quote="quote" />
+          <p v-else>LOVE IT</p>
         </footer>
       </li>
     </transition-group>
@@ -21,20 +21,21 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex"
+import { mapState, mapActions } from "vuex"
 import AddFavoriteButton from "~/components/AddFavoriteButton"
 
 export default {
   components: {
     AddFavoriteButton
   },
-  computed: { ...mapState({ randomQuotes: "quotes" }) },
+  computed: {
+    ...mapState({ randomQuotes: "quotes", fetching: "fetching" })
+  },
   // mounted() {
   //   this.fetchRandomQuotes()
   // },
   methods: {
-    ...mapActions(["fetchRandomQuotes", "fetchAtInterval"]),
-    ...mapMutations(["toggleFetchAtInterval"])
+    ...mapActions(["fetchRandomQuotes", "fetchAtInterval"])
   }
 }
 </script>
