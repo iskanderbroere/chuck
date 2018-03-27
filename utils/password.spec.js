@@ -88,22 +88,22 @@ describe("validates?", function() {
   it("returns true if valid password is provided", function() {
     expect(validate("abcaabb")).to.be.true
   })
-  it("returns error if password is too long", function() {
+  it("throws error if password is too long", function() {
     expect(() => validate("dsfdssddsfsdfdsfsdfdsfdsfdsfdsfda")).to.throw(Error, "Password is too long")
   })
-  it("returns error if password is too short", function() {
+  it("throws error if password is too short", function() {
     expect(() => validate("ds")).to.throw(Error, "Password is too short")
   })
-  it("returns error if password is not lower case alphabetic", function() {
+  it("throws error if password is not lower case alphabetic", function() {
     expect(() => validate("dsfdssddsfSDFDSFDSFDSF")).to.throw(Error, "Password is not lower case alphabetic")
   })
-  it('returns error if password contains "i"', function() {
+  it('throws error if password contains "i"', function() {
     expect(() => validate("dsfdsi")).to.throw(Error, 'Password cannot contain "i"')
   })
-  it("returns error if password does not contain increasing straight", function() {
+  it("throws error if password does not contain increasing straight", function() {
     expect(() => validate("xbyzu")).to.throw(Error, "Password does not contain increasing straight")
   })
-  it("returns error if password does not contain two overlapping pairs", function() {
+  it("throws error if password does not contain two overlapping pairs", function() {
     expect(() => validate("abcdef")).to.throw(Error, "Password does not contain two overlapping pairs")
   })
 })
