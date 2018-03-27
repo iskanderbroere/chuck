@@ -1,6 +1,11 @@
 /* eslint-env mocha */
 import { expect } from "chai"
-import { tooLong, tooShort, isLowerCaseAlphabetic } from "./password"
+import {
+  tooLong,
+  tooShort,
+  isLowerCaseAlphabetic,
+  hasIllegalCharacters
+} from "./password"
 
 describe("tooLong?", function() {
   it("returns true because longer than 32", function() {
@@ -38,5 +43,13 @@ describe("isLowerCaseAlphabetic?", function() {
   })
   it("returns false because password contains numbers and capital alphabetic characters", function() {
     expect(isLowerCaseAlphabetic("absdfdA12348923BCCA")).to.equal(false)
+  })
+})
+describe("hasIllegalCharacters?", function() {
+  it('returns true because password contains "i"', function() {
+    expect(hasIllegalCharacters("absdfdisf")).to.equal(true)
+  })
+  it('returns false because password does not contains "i"', function() {
+    expect(hasIllegalCharacters("absdfdASDASDASDDADASDASsf")).to.equal(false)
   })
 })

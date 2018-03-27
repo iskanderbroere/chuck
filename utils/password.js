@@ -55,7 +55,7 @@ export const tooShort = password => password.length < 3
 
 export const isLowerCaseAlphabetic = password => /^[a-z]+$/.test(password)
 
-export const hasIllegalCharacters = password => !password.match(/^[i]+$/)
+export const hasIllegalCharacters = password => /i/.test(password)
 
 export const hasIncreasingStraight = password => {
   const passwordArray = passwordToArray(password)
