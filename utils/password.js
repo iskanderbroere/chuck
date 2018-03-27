@@ -59,7 +59,7 @@ export const tooLong = pw => pw.length > 32
 
 export const tooShort = pw => pw.length < 3
 
-export const isLowerCaseAlphabetic = pw => /^[a-z]+$/.test(pw)
+export const isNotLowerCaseAlphabetic = pw => !/^[a-z]+$/.test(pw)
 
 export const hasIllegalCharacters = pw => /i/.test(pw)
 
@@ -97,17 +97,24 @@ export const hasTwoOverlappingPairs = pw => {
 export const validatePassword = pw => {
   const trimmedPassword = trimPassword(pw)
   if (tooLong(trimmedPassword)) {
-    return "Password is too long"
+    throw new Error("Password is too long")
   }
   if (tooShort(trimmedPassword)) {
-    return "Password is too short"
+    throw new Error("Password is too short")
   }
-  if (isLowerCaseAlphabetic(trimmedPassword)) {
-    return "Password is not lower case alphabetic"
+  if (isNotLowerCaseAlphabetic(trimmedPassword)) {
+    throw new Error("Password is not lower case alphabetic")
   }
   if (hasIllegalCharacters(trimmedPassword)) {
-    return 'Password cannot contain "i"'
+    throw new Error('Password cannot contain "i"')
   }
+  if (!hasIncreasingStraight(trimmedPassword)) {
+    throw new Error("Password does not contain increasing straight")
+  }
+  if (!hasTwoOverlappingPairs(trimmedPassword)) {
+    throw new Error("Password does not contain two overlapping pairs")
+  }
+  return true
 }
 
 export default validatePassword

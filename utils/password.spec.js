@@ -1,13 +1,20 @@
 /* eslint-env mocha */
 import { expect } from "chai"
-import {
+import validate, {
+  trimPassword,
   tooLong,
   tooShort,
-  isLowerCaseAlphabetic,
+  isNotLowerCaseAlphabetic,
   hasIllegalCharacters,
   hasIncreasingStraight,
   hasTwoOverlappingPairs
 } from "./password"
+
+describe("tooLong?", function() {
+  it("returns trimmed password", function() {
+    expect(trimPassword("abcdefghijklmodnsfodsidsfjdsofjde    ")).to.equal("abcdefghijklmodnsfodsidsfjdsofjde")
+  })
+})
 
 describe("tooLong?", function() {
   it("returns true because longer than 32", function() {
@@ -33,18 +40,18 @@ describe("tooShort?", function() {
   })
 })
 
-describe("isLowerCaseAlphabetic?", function() {
+describe("isNotLowerCaseAlphabetic?", function() {
   it("returns true because password only contains lower case alphabetic characters", function() {
-    expect(isLowerCaseAlphabetic("absdfdsf")).to.be.true
+    expect(isNotLowerCaseAlphabetic("absdfdsf")).to.be.false
   })
   it("returns false because password contains capital alphabetic characters", function() {
-    expect(isLowerCaseAlphabetic("absdfdASDASDASDDADASDASsf")).to.be.false
+    expect(isNotLowerCaseAlphabetic("absdfdASDASDASDDADASDASsf")).to.be.true
   })
   it("returns false because password contains numbers", function() {
-    expect(isLowerCaseAlphabetic("absdfd123489230")).to.be.false
+    expect(isNotLowerCaseAlphabetic("absdfd123489230")).to.be.true
   })
   it("returns false because password contains numbers and capital alphabetic characters", function() {
-    expect(isLowerCaseAlphabetic("absdfdA12348923BCCA")).to.be.false
+    expect(isNotLowerCaseAlphabetic("absdfdA12348923BCCA")).to.be.true
   })
 })
 describe("hasIllegalCharacters?", function() {
@@ -74,5 +81,29 @@ describe("hasTwoOverlappingPairs?", function() {
   })
   it("returns false because password does not contain two overlapping pairs", function() {
     expect(hasTwoOverlappingPairs("acdsdfkjsljdfxyn")).to.be.false
+  })
+})
+
+describe("validates?", function() {
+  it("returns true if valid password is provided", function() {
+    expect(validate("abcaabb")).to.be.true
+  })
+  it("returns error if password is too long", function() {
+    expect(() => validate("dsfdssddsfsdfdsfsdfdsfdsfdsfdsfda")).to.throw(Error, "Password is too long")
+  })
+  it("returns error if password is too short", function() {
+    expect(() => validate("ds")).to.throw(Error, "Password is too short")
+  })
+  it("returns error if password is not lower case alphabetic", function() {
+    expect(() => validate("dsfdssddsfSDFDSFDSFDSF")).to.throw(Error, "Password is not lower case alphabetic")
+  })
+  it('returns error if password contains "i"', function() {
+    expect(() => validate("dsfdsi")).to.throw(Error, 'Password cannot contain "i"')
+  })
+  it("returns error if password does not contain increasing straight", function() {
+    expect(() => validate("xbyzu")).to.throw(Error, "Password does not contain increasing straight")
+  })
+  it("returns error if password does not contain two overlapping pairs", function() {
+    expect(() => validate("abcdef")).to.throw(Error, "Password does not contain two overlapping pairs")
   })
 })
