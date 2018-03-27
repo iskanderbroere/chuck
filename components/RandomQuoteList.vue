@@ -3,7 +3,7 @@
     <h1 class="py-4 font-sans">Random quotes</h1>
     <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchRandomQuotes()">Get quotes</button>
     <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchAtInterval()">{{ fetching ? "Pause" : "Start" }}</button>
-    <transition-group tag="ul" name="fade" class="list-reset font-sans mb-4 quotes">
+    <transition-group tag="ul" name="fade" class="list-reset font-sans mb-4">
       <li
         v-for="quote in randomQuotes"
         :key="quote.id"
@@ -46,11 +46,13 @@ export default {
 section {
   grid-column: span 2;
 }
-ul.quotes {
+ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(
+    auto-fill,
+    [row-start] minmax(250px, 1fr) [row-end]
+  );
   grid-gap: 1rem;
-}
-button {
 }
 </style>
