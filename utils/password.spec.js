@@ -1,6 +1,13 @@
 /* eslint-env mocha */
 import { expect } from "chai"
-import { tooLong, tooShort, isLowerCaseAlphabetic, hasIllegalCharacters, hasIncreasingStraight } from "./password"
+import {
+  tooLong,
+  tooShort,
+  isLowerCaseAlphabetic,
+  hasIllegalCharacters,
+  hasIncreasingStraight,
+  hasTwoOverlappingPairs
+} from "./password"
 
 describe("tooLong?", function() {
   it("returns true because longer than 32", function() {
@@ -55,5 +62,17 @@ describe("hasIncreasingStraight?", function() {
   })
   it("returns false because password does not contain increasing straight", function() {
     expect(hasIncreasingStraight("acdsdfkjsljdfxyn")).to.be.false
+  })
+})
+
+describe("hasTwoOverlappingPairs?", function() {
+  it("returns true because password contains two overlapping pairs", function() {
+    expect(hasTwoOverlappingPairs("aabcdkfdjlsdeef")).to.be.true
+  })
+  it("returns false because password only contains one overlapping pair", function() {
+    expect(hasTwoOverlappingPairs("aacdsdfkjsljdfxyn")).to.be.false
+  })
+  it("returns false because password does not contain two overlapping pairs", function() {
+    expect(hasTwoOverlappingPairs("acdsdfkjsljdfxyn")).to.be.false
   })
 })

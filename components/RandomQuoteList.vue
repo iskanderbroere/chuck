@@ -49,10 +49,7 @@ section {
 ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(
-    auto-fill,
-    [row-start] minmax(250px, 1fr) [row-end]
-  );
+  grid-template-rows: repeat(auto-fill, [row-start] minmax(250px, 1fr) [row-end]);
   grid-gap: 1rem;
 }
 </style>

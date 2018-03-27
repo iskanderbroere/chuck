@@ -1,8 +1,10 @@
-const trimPassword = password => {
-  return password.trim()
+// helper functions
+
+export const trimPassword = pw => {
+  return pw.trim()
 }
 
-const alphabet = [
+export const alphabet = [
   "a",
   "b",
   "c",
@@ -31,42 +33,69 @@ const alphabet = [
   "z"
 ]
 
-const indexOfAlphabet = letter => {
+export const indexOfAlphabet = letter => {
   return alphabet.indexOf(letter)
 }
 
-const isIncreasingStraight = (first, second, third) => {
+export const isIncreasingStraight = (first, second, third) => {
   const firstAlphabetIndex = indexOfAlphabet(first)
   const secondAlphabetIndex = indexOfAlphabet(second)
   const thirdAlphabetIndex = indexOfAlphabet(third)
+  // e.g. (d - c) === (4 - 3), if 1, next to each other
   const sumOne = secondAlphabetIndex - firstAlphabetIndex === 1
   const sumTwo = thirdAlphabetIndex - secondAlphabetIndex === 1
   return sumOne && sumTwo
 }
 
-export const tooLong = password => password.length > 32
+export const isNonOverlappingPair = (first, second) => {
+  const firstAlphabetIndex = indexOfAlphabet(first)
+  const secondAlphabetIndex = indexOfAlphabet(second)
+  return secondAlphabetIndex - firstAlphabetIndex === 0
+}
 
-export const tooShort = password => password.length < 3
+// end of helper functions
 
-export const isLowerCaseAlphabetic = password => /^[a-z]+$/.test(password)
+export const tooLong = pw => pw.length > 32
 
-export const hasIllegalCharacters = password => /i/.test(password)
+export const tooShort = pw => pw.length < 3
 
-export const hasIncreasingStraight = password => {
+export const isLowerCaseAlphabetic = pw => /^[a-z]+$/.test(pw)
+
+export const hasIllegalCharacters = pw => /i/.test(pw)
+
+export const hasIncreasingStraight = pw => {
   // loop for every character except the last two
-  const amountOfLoops = password.length - 3
+  const amountOfLoops = pw.length - 3
   for (let n = 0; n <= amountOfLoops; n++) {
-    if (isIncreasingStraight(password.charAt(n), password.charAt(n + 1), password.charAt(n + 2))) {
+    if (isIncreasingStraight(pw.charAt(n), pw.charAt(n + 1), pw.charAt(n + 2))) {
       return true
+    }
+    // only returns false if last run of loop
+    if (n === amountOfLoops) {
+      return false
+    }
+  }
+}
+
+export const hasTwoOverlappingPairs = pw => {
+  const amountOfLoops = pw.length - 2
+  let counter = 0
+  for (let n = 0; n <= amountOfLoops; n++) {
+    if (isNonOverlappingPair(pw.charAt(n), pw.charAt(n + 1))) {
+      counter++
+      if (counter === 2) {
+        return true
+      }
     }
     if (n === amountOfLoops) {
       return false
     }
   }
 }
+
 // todo
-export const validatePassword = password => {
-  const trimmedPassword = trimPassword(password)
+export const validatePassword = pw => {
+  const trimmedPassword = trimPassword(pw)
   if (tooLong(trimmedPassword)) {
     return "Password is too long"
   }
