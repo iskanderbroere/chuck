@@ -43,7 +43,6 @@ const isIncreasingStraight = (first, second, third) => {
   const firstAlphabetIndex = indexOfAlphabet(first)
   const secondAlphabetIndex = indexOfAlphabet(second)
   const thirdAlphabetIndex = indexOfAlphabet(third)
-  console.log(firstAlphabetIndex, secondAlphabetIndex, thirdAlphabetIndex)
   const sumOne = secondAlphabetIndex - firstAlphabetIndex === 1
   const sumTwo = thirdAlphabetIndex - secondAlphabetIndex === 1
   return sumOne && sumTwo
@@ -72,6 +71,7 @@ export const hasIncreasingStraight = password => {
     }
   }
 }
+// todo
 export const validatePassword = password => {
   const trimmedPassword = trimPassword(password)
   if (tooLong(trimmedPassword)) {
