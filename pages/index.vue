@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-grey-lightest container container-grid mx-auto">
+  <main class="container-grid container mx-auto">
     <random-quote-list />
     <favorite-list />
   </main>

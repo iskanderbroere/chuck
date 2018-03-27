@@ -2,7 +2,7 @@
   <section>
     <h1 class="py-4 font-sans">Random quotes</h1>
     <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchRandomQuotes()">Get quotes</button>
-    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchAtInterval()">{{ fetching ? "Pause" : "Start" }}</button>
+    <button class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" @click="fetchAtInterval()">{{ fetching ? "Pause" : "Start" }}</button><nuxt-link class="inline-flex text-lg hover:bg-grey-lighter border border-grey-darker border-2 justify-center font-bold py-2 px-4 rounded my-2 mr-2" to="/login">Login</nuxt-link>
     <transition-group tag="ul" name="fade" class="list-reset font-sans mb-4">
       <li
         v-for="quote in randomQuotes"
