@@ -4,10 +4,21 @@ import { fetchOne } from "../utils/api"
 export const state = () => ({
   quotes: [],
   favorites: [],
+  user: null,
+  errors: [],
   fetching: false
 })
 
 export const mutations = {
+  setError(state, e) {
+    state.errors.push(e)
+  },
+  resetErrors(state) {
+    state.errors = []
+  },
+  setUser(state, user) {
+    state.user = user
+  },
   setFavoriteQuotes(state, favoriteQuotes) {
     state.favorites = favoriteQuotes
   },
