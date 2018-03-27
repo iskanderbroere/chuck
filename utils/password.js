@@ -53,7 +53,7 @@ export const tooLong = password => password.length > 32
 
 export const tooShort = password => password.length < 3
 
-export const isLowerCaseAlphabetic = password => !password.match(/^[a-z]+$/)
+export const isLowerCaseAlphabetic = password => /^[a-z]+$/.test(password)
 
 export const hasIllegalCharacters = password => !password.match(/^[i]+$/)
 
@@ -65,7 +65,6 @@ export const hasIncreasingStraight = password => {
     const secondLetter = passwordArray[n + 1]
     const thirdLetter = passwordArray[n + 2]
     if (isIncreasingStraight(firstLetter, secondLetter, thirdLetter)) {
-      console.log("INCREASING STRAIGHT FOUND")
       return true
     }
     if (n === passwordLength) {
