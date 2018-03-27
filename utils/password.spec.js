@@ -1,12 +1,6 @@
 /* eslint-env mocha */
 import { expect } from "chai"
-import {
-  tooLong,
-  tooShort,
-  isLowerCaseAlphabetic,
-  hasIllegalCharacters,
-  hasIncreasingStraight
-} from "./password"
+import { tooLong, tooShort, isLowerCaseAlphabetic, hasIllegalCharacters, hasIncreasingStraight } from "./password"
 
 describe("tooLong?", function() {
   it("returns true because longer than 32", function() {
@@ -57,7 +51,7 @@ describe("hasIllegalCharacters?", function() {
 
 describe("hasIncreasingStraight?", function() {
   it("returns true because password contains increasing straight", function() {
-    expect(hasIncreasingStraight("abcabcdkfdjlsdef")).to.be.true
+    expect(hasIncreasingStraight("abcdkfdjlsdef")).to.be.true
   })
   it("returns false because password does not contain increasing straight", function() {
     expect(hasIncreasingStraight("acdsdfkjsljdfxyn")).to.be.false

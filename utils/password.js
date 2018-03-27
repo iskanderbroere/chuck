@@ -2,10 +2,6 @@ const trimPassword = password => {
   return password.trim()
 }
 
-const passwordToArray = password => {
-  return password.split("")
-}
-
 const alphabet = [
   "a",
   "b",
@@ -57,16 +53,13 @@ export const isLowerCaseAlphabetic = password => /^[a-z]+$/.test(password)
 export const hasIllegalCharacters = password => /i/.test(password)
 
 export const hasIncreasingStraight = password => {
-  const passwordArray = passwordToArray(password)
-  const passwordLength = passwordArray.length - 3
-  for (let n = 0; n <= passwordLength; n++) {
-    const firstLetter = passwordArray[n]
-    const secondLetter = passwordArray[n + 1]
-    const thirdLetter = passwordArray[n + 2]
-    if (isIncreasingStraight(firstLetter, secondLetter, thirdLetter)) {
+  // loop for every character except the last two
+  const amountOfLoops = password.length - 3
+  for (let n = 0; n <= amountOfLoops; n++) {
+    if (isIncreasingStraight(password.charAt(n), password.charAt(n + 1), password.charAt(n + 2))) {
       return true
     }
-    if (n === passwordLength) {
+    if (n === amountOfLoops) {
       return false
     }
   }

@@ -20,7 +20,6 @@ module.exports = {
       2,
       "never"
     ],
-    "max-len": "off",
     "no-console": "off",
     "no-debugger": "off",
     "vue/max-attributes-per-line": [2, {
@@ -33,7 +32,8 @@ module.exports = {
     "prettier/prettier": [
       "error",
       {
-        "semi": false
+        "semi": false,
+        "printWidth": 120
       }
     ]
   },
