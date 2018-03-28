@@ -8,16 +8,11 @@ Make sure to have `node 8.0+` and `npm 5.0+ or yarn 1.5.1+` installed.
 
 ## Installation
 
-This is a project template for [vue-cli](https://github.com/vuejs/vue-cli).
-
 ``` bash
-$ vue init nuxt-community/starter-template my-project  
-$ cd my-project                     
-# install dependencies
+$ git clone https://github.com/iskanderbroere/chuck  
+$ cd chuck                     
 $ npm install # Or yarn install
 ```
-
-> Make sure to use a version of vue-cli >= 2.1 (`vue -V`).
 
 ## Usage
 
@@ -27,20 +22,9 @@ $ npm install # Or yarn install
 # serve with hot reloading at localhost:3000
 $ npm run dev
 ```
-
-Go to [http://localhost:3000](http://localhost:3000)
-
-### Production
+### Tests
 
 ``` bash
-# build for production and launch the server
-$ npm run build
-$ npm start
-```
-
-### Generate
-
-``` bash
-# generate a static project
-$ npm run generate
+# run mocha test watcher
+$ npm run test
 ```
